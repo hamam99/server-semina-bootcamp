@@ -17,8 +17,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(notFoundMiddleware)
-app.use(errorHandlerMiddleware)
 
 app.get('/', (req, res) => {
   res.status(200).json({
@@ -27,5 +25,7 @@ app.get('/', (req, res) => {
 })
 
 app.use(v1, categoriesRouter)
+app.use(notFoundMiddleware)
+app.use(errorHandlerMiddleware)
 
 module.exports = app

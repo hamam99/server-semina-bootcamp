@@ -1,33 +1,34 @@
 const { default: mongoose } = require('mongoose')
 const Categories = require('./model')
+const {
+  getAllCategoris,
+  createCategory,
+} = require('../../../services/mongoose/categories')
 
 const create = async (req, res, next) => {
   try {
-    const { name } = req.body
-    const result = await Categories.create({
-      name,
-    })
+    const result = await createCategory(req)
     res.status(201).json({
       data: result,
     })
   } catch (error) {
-    // next(error);
-    if (error.name === 'ValidationError') {
-      res.status(400).json({
-        message: error.message,
-        fields: error.errors,
-      })
-      return
-    }
-    res.status(500).json({
-      message: 'Internal Server Error',
-    })
+    next(error)
+    // if (error.name === 'ValidationError') {
+    //   res.status(400).json({
+    //     message: error.message,
+    //     fields: error.errors,
+    //   })
+    //   return
+    // }
+    // res.status(500).json({
+    //   message: 'Internal Server Error create',
+    // })
   }
 }
 
 const index = async (req, res, next) => {
   try {
-    const result = await Categories.find().select('_id name')
+    const result = await getAllCategoris().select('_id name')
     res.status(201).json({
       data: result,
     })
