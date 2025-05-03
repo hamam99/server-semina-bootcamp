@@ -1,4 +1,5 @@
 const Images = require('../../api/v1/images/model')
+const { NotFound } = require('../../errors')
 
 const generateUrlImage = async (req) => {
   const result = `uploads/${req.file.filename}`
@@ -15,7 +16,19 @@ const createImages = async (req) => {
   return result
 }
 
+const checkingImage = async (image) => {
+  const result2 = await Images.find()
+  const result = await Images.findOne({ _id: image })
+
+  if (!result) {
+    throw new NotFound('Image tidak ditemukan')
+  }
+
+  return result
+}
+
 module.exports = {
   createImages,
   generateUrlImage,
+  checkingImage,
 }
