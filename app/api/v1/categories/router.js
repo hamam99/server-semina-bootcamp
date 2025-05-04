@@ -1,14 +1,45 @@
 const express = require('express')
 const router = express()
 const { create, index, find, update, destroy } = require('./controller')
-const { authenticateUser } = require('../../../middlewares/auth')
+const {
+  authenticateUser,
+  authorizeRoles,
+} = require('../../../middlewares/auth')
 
-router.use(authenticateUser)
-router.get('/categories', index)
-router.get('/categories/:id', find)
+router.get(
+  '/categories',
+  authenticateUser,
+  authorizeRoles('organizer', 'admin'),
+  index
+)
+router.get(
+  '/categories/:id',
+  authenticateUser,
+  authenticateUser,
+  authorizeRoles('organizer', 'admin'),
+  find
+)
 
-router.put('/categories/:id', update)
-router.delete('/categories/:id', destroy)
-router.post('/categories', create)
+router.put(
+  '/categories/:id',
+  authenticateUser,
+  authenticateUser,
+  authorizeRoles('organizer', 'admin'),
+  update
+)
+router.delete(
+  '/categories/:id',
+  authenticateUser,
+  authenticateUser,
+  authorizeRoles('organizer', 'admin'),
+  destroy
+)
+router.post(
+  '/categories',
+  authenticateUser,
+  authenticateUser,
+  authorizeRoles('organizer', 'admin'),
+  create
+)
 
 module.exports = router

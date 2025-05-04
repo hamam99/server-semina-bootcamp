@@ -18,7 +18,7 @@ let userSchema = Schema(
     password: {
       type: String,
       required: [true, 'Kata sandi harus diisi'],
-      minLength: [6, 'Kata sandi minimal 6 karakter'],
+      minLength: [5, 'Kata sandi minimal 6 karakter'],
     },
     role: {
       type: String,

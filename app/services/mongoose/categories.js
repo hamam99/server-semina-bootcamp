@@ -28,6 +28,7 @@ const getOneCategories = async (req) => {
   const { id } = req.params
   const result = await Categories.findOne({
     _id: id,
+    organizer: req.user.organizer,
   })
 
   if (!result) throw new NotFound('Tidak ada kategori dengan id :' + id)
@@ -41,6 +42,7 @@ const updateCategories = async (req) => {
 
   const check = await Categories.findOne({
     name,
+    organizer: req.user.organizer,
     _id: { $ne: id },
   })
 
@@ -69,6 +71,7 @@ const deleteCategories = async (req) => {
 
   const check = await Categories.findOne({
     _id: id,
+    organizer: req.user.organizer,
   })
 
   if (!check) throw new BadRequest('Tidak ada kategori dengan id :' + id)
