@@ -18,7 +18,13 @@ const isJwtValid = ({ token }) => {
   }
 }
 
+const isTokenValid = (token) => {
+  const decoded = jwt.verify(token, jwtSecret)
+  return decoded
+}
+
 module.exports = {
   createJwt,
   isJwtValid,
+  isTokenValid,
 }

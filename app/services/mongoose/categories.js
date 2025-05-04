@@ -1,8 +1,10 @@
 const Categories = require('../../api/v1/categories/model')
 const { BadRequest, NotFound } = require('../../errors')
 
-const getAllCategoris = async () => {
-  const result = await Categories.find()
+const getAllCategoris = async (req) => {
+  const result = await Categories.find({
+    organizer: req.user.organizer,
+  })
   return result
 }
 
@@ -16,6 +18,7 @@ const createCategory = async (req) => {
 
   const result = await Categories.create({
     name,
+    organizer: req.user.organizer,
   })
 
   return result
