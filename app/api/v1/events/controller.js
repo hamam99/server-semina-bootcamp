@@ -1,39 +1,29 @@
 const { default: mongoose } = require('mongoose')
-const Categories = require('./model')
-const {
-  getAllCategoris,
-  createCategory,
-  getOneCategories,
-  updateCategories,
-  deleteCategories,
-} = require('../../../services/mongoose/categories')
+const Events = require('./model')
 
 const { StatusCodes } = require('http-status-codes')
+const {
+  createEvents,
+  getAllEvents,
+  getOneEvents,
+  updateEvents,
+  deleteEvents,
+} = require('../../../services/mongoose/event')
 
 const create = async (req, res, next) => {
   try {
-    const result = await createCategory(req)
+    const result = await createEvents(req)
     res.status(StatusCodes.CREATED).json({
       data: result,
     })
   } catch (error) {
     next(error)
-    // if (error.name === 'ValidationError') {
-    //   res.status(400).json({
-    //     message: error.message,
-    //     fields: error.errors,
-    //   })
-    //   return
-    // }
-    // res.status(500).json({
-    //   message: 'Internal Server Error create',
-    // })
   }
 }
 
 const index = async (req, res, next) => {
   try {
-    const result = await getAllCategoris()
+    const result = await getAllEvents(req)
     res.status(StatusCodes.OK).json({
       data: result,
     })
@@ -44,19 +34,21 @@ const index = async (req, res, next) => {
 
 const find = async (req, res, next) => {
   try {
-    const { id } = req.params
+    const { id } = req?.params
 
     // Validate ObjectId format
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({
+      return res.status(StatusCodes.BAD_REQUEST).json({
         message: 'Invalid ID format',
       })
     }
 
-    const result = await getOneCategories(req)
+    const result = await getOneEvents(req)
 
     if (!result) {
-      return res.status(404).json({ message: 'Id categories tidak ditemukan' })
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: 'Id event tidak ditemukan' })
     }
 
     res.status(StatusCodes.OK).json({
@@ -69,7 +61,7 @@ const find = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const result = await updateCategories(req)
+    const result = await updateEvents(req)
     res.status(StatusCodes.CREATED).json({
       data: result,
     })
@@ -80,7 +72,7 @@ const update = async (req, res, next) => {
 
 const destroy = async (req, res, next) => {
   try {
-    const result = await deleteCategories(req)
+    const result = await deleteEvents(req)
     res.status(StatusCodes.CREATED).json({
       data: result,
     })

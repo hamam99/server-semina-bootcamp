@@ -58,7 +58,7 @@ const getOneTalents = async (req) => {
     .select('_id name role image')
 
   if (!result) {
-    throw new NotFound('Data tidak ditemukan')
+    throw new NotFound('Talent tidak ditemukan')
   }
 
   return result
@@ -91,7 +91,7 @@ const updateTalents = async (req) => {
   )
 
   if (!result) {
-    throw new NotFound('Data tidak ditemukan')
+    throw new NotFound('Talent tidak ditemukan')
   }
 
   return result
@@ -102,18 +102,17 @@ const deleteTalents = async (req) => {
   const result = await Talents.findOneAndDelete({ _id: id })
 
   if (!result) {
-    throw new NotFound('Data tidak ditemukan')
+    throw new NotFound('Talent tidak ditemukan')
   }
 
   return result
 }
 
-const checkingTalent = async (req) => {
-  const { id } = req.params
+const checkingTalent = async (id) => {
   const result = await Talents.findOne({ _id: id })
 
   if (!result) {
-    throw new NotFound('Data tidak ditemukan')
+    throw new NotFound('Talent tidak ditemukan')
   }
 
   return result

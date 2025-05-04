@@ -17,7 +17,6 @@ const createImages = async (req) => {
 }
 
 const checkingImage = async (image) => {
-  const result2 = await Images.find()
   const result = await Images.findOne({ _id: image })
 
   if (!result) {
